@@ -9,6 +9,8 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=Barlow+Condensed:wght@600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="motion.css">
+  <script>document.documentElement.classList.add('js');</script>
 </head>
 <body>
 
@@ -35,18 +37,20 @@
 <!-- ===== Hero ===== -->
 <section class="hero">
   <div class="hero-photo" aria-hidden="true"></div>
+  <div class="hero-speed" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+  <div class="hero-slash" aria-hidden="true"></div>
   <div class="hero-inner">
     <div class="hero-copy">
-      <span class="hero-bar"></span>
-      <p class="hero-eyebrow">トラックが急に必要になったら</p>
+      <span class="hero-bar fx" style="--d:.1s"></span>
+      <p class="hero-eyebrow fx" style="--d:.2s">トラックが急に必要になったら</p>
       <h1 class="hero-title">
-        トラックレンタル<br>
-        <em>スピード対応</em>
+        <span class="line"><span style="--d:.35s">トラックレンタル</span></span>
+        <span class="line"><em style="--d:.55s">スピード対応</em></span>
       </h1>
-      <p class="hero-sub">車格別の月額目安も掲載</p>
-      <p class="hero-types">2t（S/L）・2t冷蔵/冷凍・4t・4t冷蔵/冷凍・ダンプ・10t</p>
-      <div class="hero-actions">
-        <a href="#price" class="btn btn-lime btn-lg">空き車両・料金を見る <span class="arrow">→</span></a>
+      <p class="hero-sub fx" style="--d:.85s">車格別の月額目安も掲載</p>
+      <p class="hero-types fx" style="--d:.95s">2t（S/L）・2t冷蔵/冷凍・4t・4t冷蔵/冷凍・ダンプ・10t</p>
+      <div class="hero-actions fx" style="--d:1.05s">
+        <a href="#price" class="btn btn-lime btn-lg btn-shine">空き車両・料金を見る <span class="arrow">→</span></a>
         <a href="tel:0428507077" class="hero-tel">
           <small>お急ぎの方はお電話で</small>
           <strong>☎ 042-850-7077</strong>
@@ -58,40 +62,47 @@
 
   <div class="hero-prices">
     <ul class="price-strip">
-      <li><a href="#price-2t"><span class="ps-name">2t（S/L）</span><span class="ps-val"><b>7</b>万円/月〜</span></a></li>
-      <li><a href="#price-2tc"><span class="ps-name">2t冷蔵・冷凍</span><span class="ps-val"><b>15</b>万円/月〜</span></a></li>
-      <li><a href="#price-4t"><span class="ps-name">4t</span><span class="ps-val"><b>9</b>万円/月〜</span></a></li>
-      <li><a href="#price-4tc"><span class="ps-name">4t冷蔵・冷凍</span><span class="ps-val"><b>241,352</b>円/月〜</span></a></li>
-      <li><a href="#price-dump"><span class="ps-name">ダンプ</span><span class="ps-val"><b>25</b>万円/月〜</span></a></li>
-      <li><a href="#price-10t"><span class="ps-name">10t</span><span class="ps-val"><b>25</b>万円/月〜</span></a></li>
+      <li style="--d:1.18s"><a href="#price-2t"><span class="ps-name">2t（S/L）</span><span class="ps-val"><b data-count="7">7</b>万円/月〜</span></a></li>
+      <li style="--d:1.26s"><a href="#price-2tc"><span class="ps-name">2t冷蔵・冷凍</span><span class="ps-val"><b data-count="15">15</b>万円/月〜</span></a></li>
+      <li style="--d:1.34s"><a href="#price-4t"><span class="ps-name">4t</span><span class="ps-val"><b data-count="9">9</b>万円/月〜</span></a></li>
+      <li style="--d:1.42s"><a href="#price-4tc"><span class="ps-name">4t冷蔵・冷凍</span><span class="ps-val"><b data-count="241352">241,352</b>円/月〜</span></a></li>
+      <li style="--d:1.50s"><a href="#price-dump"><span class="ps-name">ダンプ</span><span class="ps-val"><b data-count="25">25</b>万円/月〜</span></a></li>
+      <li style="--d:1.58s"><a href="#price-10t"><span class="ps-name">10t</span><span class="ps-val"><b data-count="25">25</b>万円/月〜</span></a></li>
     </ul>
     <p class="price-note">※掲載金額は月額・税抜の最低提示額です。</p>
   </div>
 </section>
 
+<div class="marquee" aria-hidden="true">
+  <div class="marquee-track">
+    <span>TRUCK RENTAL</span><b>✦</b><span>SPEED</span><b>✦</b><span>2t</span><b>✦</b><span>4t</span><b>✦</b><span>10t</span><b>✦</b><span>DUMP</span><b>✦</b><span>COLD CHAIN</span><b>✦</b>
+    <span>TRUCK RENTAL</span><b>✦</b><span>SPEED</span><b>✦</b><span>2t</span><b>✦</b><span>4t</span><b>✦</b><span>10t</span><b>✦</b><span>DUMP</span><b>✦</b><span>COLD CHAIN</span><b>✦</b>
+  </div>
+</div>
+
 <!-- ===== Scene ===== -->
-<section class="section scene" id="scene">
+<section class="section scene" id="scene" data-wm="SCENE">
   <div class="container">
     <p class="sec-label">SCENE</p>
     <h2 class="sec-title">こんな「今すぐ1台」に</h2>
     <div class="scene-grid">
       <div class="scene-card">
-        <div class="scene-icon">📦</div>
+        <div class="scene-icon"><svg viewBox="0 0 24 24"><path d="M3 7l9-4 9 4-9 4-9-4z"/><path d="M3 7v10l9 4 9-4V7"/><path d="M12 11v10"/></svg></div>
         <h3>急な増車・新規案件</h3>
         <p>新しい荷主の案件が決まった、スポットの依頼が増えた。車両購入を待たずに走り出せます。</p>
       </div>
       <div class="scene-card">
-        <div class="scene-icon">🔧</div>
+        <div class="scene-icon"><svg viewBox="0 0 24 24"><path d="M14.7 6.3a4 4 0 0 0-5.4 5.2L3 17.8V21h3.2l6.3-6.3a4 4 0 0 0 5.2-5.4l-2.6 2.6-2.4-.6-.6-2.4 2.6-2.6z"/></svg></div>
         <h3>車検・故障中の代車</h3>
         <p>自社車両が止まっている間も、配送は止められない。修理期間だけの月額利用に。</p>
       </div>
       <div class="scene-card">
-        <div class="scene-icon">📈</div>
+        <div class="scene-icon"><svg viewBox="0 0 24 24"><path d="M3 20h18"/><path d="M4 16l5-5 4 3 7-8"/><path d="M15 6h5v5"/></svg></div>
         <h3>繁忙期の一時的な増車</h3>
         <p>年末・引越しシーズンなど、必要な期間だけ台数を増やして、閑散期は戻すだけ。</p>
       </div>
       <div class="scene-card">
-        <div class="scene-icon">🚚</div>
+        <div class="scene-icon"><svg viewBox="0 0 24 24"><path d="M2 6h11v10H2z"/><path d="M13 9h4l4 4v3h-8z"/><circle cx="6" cy="18" r="2"/><circle cx="17" cy="18" r="2"/></svg></div>
         <h3>購入前のお試し</h3>
         <p>冷凍車・ダンプなど、新しい車格を導入する前に、実際の業務で使って確かめたい。</p>
       </div>
@@ -100,7 +111,7 @@
 </section>
 
 <!-- ===== Price ===== -->
-<section class="section price" id="price">
+<section class="section price" id="price" data-wm="PRICE">
   <div class="container">
     <p class="sec-label">PRICE</p>
     <h2 class="sec-title">車格別 月額料金の目安</h2>
@@ -109,7 +120,7 @@
     <div class="price-grid">
       <article class="price-card" id="price-2t">
         <header><span class="pc-tag">小型</span><h3>2t（S/L）</h3></header>
-        <p class="pc-val"><b>7</b><span>万円/月〜</span></p>
+        <p class="pc-val"><b data-count="7">7</b><span>万円/月〜</span></p>
         <ul class="pc-spec">
           <li>ショート／ロング</li>
           <li>市内配送・ルート便に</li>
@@ -119,7 +130,7 @@
 
       <article class="price-card" id="price-2tc">
         <header><span class="pc-tag cold">冷蔵・冷凍</span><h3>2t冷蔵・冷凍</h3></header>
-        <p class="pc-val"><b>15</b><span>万円/月〜</span></p>
+        <p class="pc-val"><b data-count="15">15</b><span>万円/月〜</span></p>
         <ul class="pc-spec">
           <li>食品・医薬品の小口配送に</li>
           <li>温度帯はご相談ください</li>
@@ -129,7 +140,7 @@
 
       <article class="price-card" id="price-4t">
         <header><span class="pc-tag">中型</span><h3>4t</h3></header>
-        <p class="pc-val"><b>9</b><span>万円/月〜</span></p>
+        <p class="pc-val"><b data-count="9">9</b><span>万円/月〜</span></p>
         <ul class="pc-spec">
           <li>幹線・地場の主力に</li>
           <li>箱車・平ボディ等ご相談</li>
@@ -139,7 +150,7 @@
 
       <article class="price-card" id="price-4tc">
         <header><span class="pc-tag cold">冷蔵・冷凍</span><h3>4t冷蔵・冷凍</h3></header>
-        <p class="pc-val"><b>241,352</b><span>円/月〜</span></p>
+        <p class="pc-val"><b data-count="241352">241,352</b><span>円/月〜</span></p>
         <ul class="pc-spec">
           <li>中ロットの低温輸送に</li>
           <li>温度帯はご相談ください</li>
@@ -149,7 +160,7 @@
 
       <article class="price-card" id="price-dump">
         <header><span class="pc-tag">特装</span><h3>ダンプ</h3></header>
-        <p class="pc-val"><b>25</b><span>万円/月〜</span></p>
+        <p class="pc-val"><b data-count="25">25</b><span>万円/月〜</span></p>
         <ul class="pc-spec">
           <li>建設・産廃・土砂の運搬に</li>
           <li>サイズはご相談ください</li>
@@ -159,7 +170,7 @@
 
       <article class="price-card" id="price-10t">
         <header><span class="pc-tag">大型</span><h3>10t</h3></header>
-        <p class="pc-val"><b>25</b><span>万円/月〜</span></p>
+        <p class="pc-val"><b data-count="25">25</b><span>万円/月〜</span></p>
         <ul class="pc-spec">
           <li>長距離・大ロットの輸送に</li>
           <li>ウイング等ご相談</li>
@@ -172,7 +183,7 @@
 </section>
 
 <!-- ===== Reason ===== -->
-<section class="section reason" id="reason">
+<section class="section reason" id="reason" data-wm="REASON">
   <div class="container">
     <p class="sec-label">REASON</p>
     <h2 class="sec-title">ワークステーションが<br class="sp-only">選ばれる理由</h2>
@@ -214,18 +225,18 @@
   <div class="container mid-cta-inner">
     <p>在庫は日々変わります。<br class="sp-only">まずは空き状況をご確認ください。</p>
     <div class="mid-cta-btns">
-      <a href="#contact" class="btn btn-lime btn-lg">空き車両を問い合わせる <span class="arrow">→</span></a>
+      <a href="#contact" class="btn btn-lime btn-lg btn-shine">空き車両を問い合わせる <span class="arrow">→</span></a>
       <a href="tel:0428507077" class="btn btn-ghost btn-lg">☎ 042-850-7077</a>
     </div>
   </div>
 </section>
 
 <!-- ===== Flow ===== -->
-<section class="section flow" id="flow">
+<section class="section flow" id="flow" data-wm="FLOW">
   <div class="container">
     <p class="sec-label">FLOW</p>
     <h2 class="sec-title">ご利用の流れ</h2>
-    <ol class="flow-list">
+    <ol class="flow-list"><span class="flow-line" aria-hidden="true"></span>
       <li><span class="flow-step">STEP 1</span><h3>お問い合わせ</h3><p>フォームまたはお電話で、車格・台数・利用開始日・期間をお知らせください。</p></li>
       <li><span class="flow-step">STEP 2</span><h3>空き確認・お見積り</h3><p>在庫を確認し、ご案内できる車両と月額料金をお伝えします。</p></li>
       <li><span class="flow-step">STEP 3</span><h3>ご契約</h3><p>条件にご納得いただけたら、必要書類をご案内してご契約へ。</p></li>
@@ -235,7 +246,7 @@
 </section>
 
 <!-- ===== FAQ ===== -->
-<section class="section faq" id="faq">
+<section class="section faq" id="faq" data-wm="FAQ">
   <div class="container narrow">
     <p class="sec-label">FAQ</p>
     <h2 class="sec-title">よくある質問</h2>
@@ -264,7 +275,7 @@
 </section>
 
 <!-- ===== Contact ===== -->
-<section class="section contact" id="contact">
+<section class="section contact" id="contact" data-wm="CONTACT">
   <div class="container contact-inner">
     <div class="contact-side">
       <p class="sec-label light">CONTACT</p>
@@ -360,6 +371,75 @@
 </div>
 
 <script>
+  // ===== Motion =====
+  (function () {
+    var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    document.documentElement.classList.add('js');
+
+    // ヘッダー：スクロールで縮む
+    var header = document.querySelector('.header');
+    var onScroll = function () {
+      header.classList.toggle('is-scrolled', window.scrollY > 40);
+      // ヒーロー写真のパララックス
+      if (!reduce && window.scrollY < 900) {
+        document.documentElement.style.setProperty('--py', (window.scrollY * 0.25) + 'px');
+      }
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+
+    // 数字カウントアップ
+    function countUp(el) {
+      var target = +el.dataset.count, start = null, dur = 1100;
+      if (reduce) return;
+      function fmt(n) { return n.toLocaleString('ja-JP'); }
+      function tick(t) {
+        if (!start) start = t;
+        var p = Math.min((t - start) / dur, 1), e = 1 - Math.pow(1 - p, 4);
+        el.textContent = fmt(Math.round(target * e));
+        if (p < 1) requestAnimationFrame(tick);
+      }
+      el.textContent = '0';
+      requestAnimationFrame(tick);
+    }
+
+    // スクロールで出現
+    var targets = '.sec-label, .sec-title, .sec-lead, .scene-card, .price-card, .reason-item, .flow-list li, .flow-list, .faq details, .contact-side, .contact-form-wrap, .company-table, .mid-cta-inner, .price-foot';
+    var els = document.querySelectorAll(targets);
+    els.forEach(function (el) {
+      el.classList.add('reveal');
+      var sib = Array.prototype.filter.call(el.parentNode.children, function (c) { return c.matches(targets); });
+      if (sib.length > 2) el.style.setProperty('--rd', (sib.indexOf(el) * 0.08) + 's');
+    });
+    if (!('IntersectionObserver' in window) || reduce) {
+      els.forEach(function (el) { el.classList.add('is-in'); });
+      return;
+    }
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (!en.isIntersecting) return;
+        en.target.classList.add('is-in');
+        en.target.querySelectorAll('[data-count]').forEach(countUp);
+        io.unobserve(en.target);
+      });
+    }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+    els.forEach(function (el) { io.observe(el); });
+
+    // ヒーロー内の数字は読み込み直後にカウント
+    setTimeout(function () {
+      document.querySelectorAll('.price-strip [data-count]').forEach(countUp);
+    }, 1200);
+
+    // 料金カード：マウス位置でハイライト
+    document.querySelectorAll('.price-card').forEach(function (card) {
+      card.addEventListener('pointermove', function (e) {
+        var r = card.getBoundingClientRect();
+        card.style.setProperty('--mx', (e.clientX - r.left) + 'px');
+        card.style.setProperty('--my', (e.clientY - r.top) + 'px');
+      });
+    });
+  })();
+
   // 料金カードのボタン → フォームの車格にチェックを入れてスクロール
   document.querySelectorAll('[data-vehicle]').forEach(function (btn) {
     btn.addEventListener('click', function () {
