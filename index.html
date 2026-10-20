@@ -10,6 +10,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=Barlow+Condensed:wght@600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="motion.css">
+  <link rel="stylesheet" href="vehicles.css">
   <script>document.documentElement.classList.add('js');</script>
 </head>
 <body>
@@ -20,6 +21,7 @@
     <a href="https://workstation-inc.net/" class="logo"><img src="images/logo.png" alt="株式会社ワークステーション" height="34"></a>
     <nav class="nav">
       <a href="#price">料金</a>
+      <a href="#vehicles">車両一覧</a>
       <a href="#scene">ご利用シーン</a>
       <a href="#reason">選ばれる理由</a>
       <a href="#flow">ご利用の流れ</a>
@@ -54,7 +56,7 @@
       <p class="hero-sub fx" style="--d:.85s">車格別の月額目安も掲載</p>
       <p class="hero-types fx" style="--d:.95s">2t（S/L）・2t冷蔵/冷凍・4t・4t冷蔵/冷凍・ダンプ・10t</p>
       <div class="hero-actions fx" style="--d:1.05s">
-        <a href="#price" class="btn btn-lime btn-lg btn-shine">空き車両・料金を見る <span class="arrow">→</span></a>
+        <a href="#vehicles" class="btn btn-lime btn-lg btn-shine">空き車両・料金を見る <span class="arrow">→</span></a>
         <a href="tel:0428507077" class="hero-tel">
           <small>お急ぎの方はお電話で</small>
           <strong>☎ 042-850-7077</strong>
@@ -77,12 +79,6 @@
   </div>
 </section>
 
-<div class="marquee" aria-hidden="true">
-  <div class="marquee-track">
-    <span>TRUCK RENTAL</span><b>✦</b><span>SPEED</span><b>✦</b><span>2t</span><b>✦</b><span>4t</span><b>✦</b><span>10t</span><b>✦</b><span>DUMP</span><b>✦</b><span>COLD CHAIN</span><b>✦</b>
-    <span>TRUCK RENTAL</span><b>✦</b><span>SPEED</span><b>✦</b><span>2t</span><b>✦</b><span>4t</span><b>✦</b><span>10t</span><b>✦</b><span>DUMP</span><b>✦</b><span>COLD CHAIN</span><b>✦</b>
-  </div>
-</div>
 
 <!-- ===== Scene ===== -->
 <section class="section scene" id="scene" data-wm="SCENE">
@@ -183,6 +179,24 @@
       </article>
     </div>
     <p class="price-foot">※掲載金額は月額・税抜の最低提示額です。車両の年式・仕様・ご利用期間により変動します。</p>
+  </div>
+</section>
+
+<!-- ===== Vehicles ===== -->
+<section class="section vehicles" id="vehicles" data-wm="LINE UP">
+  <div class="container">
+    <p class="sec-label">LINE UP</p>
+    <h2 class="sec-title">車両一覧</h2>
+    <p class="sec-lead">気になる車両があれば、そのまま問い合わせできます。<br class="pc-only">空き状況は日々変わるため、最新の状況はお問い合わせ時にご案内します。</p>
+    <p class="sample-note" id="sample-note" hidden>※ 現在はサンプル表示です（掲載車両・金額は実在庫ではありません）</p>
+
+    <div class="v-toolbar">
+      <div class="v-tabs" role="tablist" id="v-tabs"></div>
+      <label class="v-toggle"><input type="checkbox" id="v-available"><span class="v-switch"></span>空車のみ表示</label>
+    </div>
+
+    <div class="v-grid" id="v-grid"></div>
+    <p class="v-empty" id="v-empty" hidden>条件に合う車両が見つかりませんでした。<br>掲載外の車両もご用意できる場合がありますので、お気軽にお問い合わせください。</p>
   </div>
 </section>
 
@@ -328,6 +342,7 @@
           <label>電話番号 <span class="req">必須</span><input type="tel" name="entry.1183310956" required placeholder="例）042-850-7077"></label>
         </div>
         <label>メールアドレス <span class="req">必須</span><input type="email" name="entry.1624479941" required placeholder="例）info@example.com"></label>
+        <label>ご希望の車両No.<input type="text" id="f-vehicle-id" placeholder="車両一覧から選ぶと自動で入ります（任意）"></label>
         <label>ご要望・備考<textarea id="f-note" rows="4" placeholder="用途・荷物・希望の仕様（ゲート、ウイング、温度帯など）"></textarea></label>
 
         <!-- 既存Googleフォームへ送るための集約フィールド -->
@@ -374,6 +389,8 @@
   <a href="#contact" class="sp-form">空車を問い合わせる</a>
 </div>
 
+<script src="vehicles.js"></script>
+<script src="vehicles-list.js"></script>
 <script>
   // ===== Motion =====
   (function () {
@@ -468,6 +485,7 @@
     document.getElementById('f-message').value = [
       '【トラックレンタル問い合わせ】',
       '車格：' + vehicles.join('、'),
+      '希望車両No.：' + (document.getElementById('f-vehicle-id').value || '-'),
       '台数：' + (document.getElementById('f-count').value || '-'),
       '開始希望日：' + (document.getElementById('f-start').value || '-'),
       '期間：' + (document.getElementById('f-period').value || '-'),

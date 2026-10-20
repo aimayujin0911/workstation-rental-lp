@@ -102,14 +102,6 @@
 .btn .arrow { display: inline-block; transition: transform .25s; }
 .btn:hover .arrow { transform: translateX(6px); }
 
-/* --- Marquee --- */
-.marquee { background: var(--lime); color: var(--navy-800); overflow: hidden; padding: 14px 0; border-block: 3px solid var(--navy-900); }
-.marquee-track { display: flex; align-items: center; gap: 28px; width: max-content; animation: marquee 28s linear infinite; }
-.marquee span { font-family: var(--num); font-weight: 700; font-size: 34px; letter-spacing: .06em; line-height: 1; white-space: nowrap; font-style: italic; }
-.marquee span:nth-of-type(even) { color: transparent; -webkit-text-stroke: 1.5px var(--navy-800); }
-.marquee b { font-size: 18px; }
-@keyframes marquee { to { transform: translateX(-50%); } }
-
 /* --- Section watermark --- */
 .section[data-wm] { position: relative; overflow: hidden; }
 .section[data-wm]::before {
@@ -222,7 +214,6 @@
     transform: skewX(-20deg); animation: shine 3.2s 2.4s ease-in-out infinite;
   }
   .hero-speed { inset: 58px 0 0 0; }
-  .marquee span { font-size: 24px; }
   .section[data-wm]::before { font-size: 96px; top: 20px; }
   .reason-num { font-size: 48px; }
 }
