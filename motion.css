@@ -58,9 +58,13 @@
 .js .fx { opacity: 0; transform: translateY(24px); animation: fadeUp .8s var(--d, 0s) cubic-bezier(.2,.7,.2,1) forwards; }
 @keyframes fadeUp { to { opacity: 1; transform: none; } }
 
-.hero-bar { transform-origin: left; }
-.js .hero-bar.fx { transform: scaleX(0); opacity: 1; animation: barIn .7s var(--d) cubic-bezier(.7,0,.2,1) forwards; }
-@keyframes barIn { to { transform: scaleX(1); } }
+/* 見出し上のバッジ：斜めのまま左から滑り込む＋「急に」のマーカーが引かれる＋アイコン点滅 */
+.js .hero-eyebrow.fx { opacity: 0; transform: skewX(-12deg) translateX(-40px); animation: ebIn .7s var(--d) cubic-bezier(.2,.8,.2,1) forwards; }
+@keyframes ebIn { to { opacity: 1; transform: skewX(-12deg) translateX(0); } }
+.hero-eyebrow strong { background-size: 0% 100%; animation: marker .6s 1s cubic-bezier(.7,0,.2,1) forwards; }
+@keyframes marker { to { background-size: 100% 100%; } }
+.eb-icon { animation: blink 1.6s 1.2s ease-in-out infinite; }
+@keyframes blink { 0%, 100% { box-shadow: 0 0 0 0 rgba(212,240,60,.6); } 50% { box-shadow: 0 0 0 8px rgba(212,240,60,0); } }
 
 .hero-title .line { display: block; overflow: hidden; padding-bottom: .06em; }
 .hero-title .line > * { display: inline-block; }
@@ -228,6 +232,8 @@
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
   .js .fx, .js .reveal, .js .price-strip li { opacity: 1 !important; transform: none !important; }
+  .js .hero-eyebrow.fx { transform: skewX(-12deg) !important; }
+  .hero-eyebrow strong { background-size: 100% 100% !important; }
   .js .hero-title .line > * { transform: none !important; }
   .hero-speed, .btn-shine::before, .sp-form::before { display: none; }
 }
