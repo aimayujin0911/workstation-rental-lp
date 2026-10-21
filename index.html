@@ -186,17 +186,35 @@
 <section class="section vehicles" id="vehicles" data-wm="LINE UP">
   <div class="container">
     <p class="sec-label">LINE UP</p>
-    <h2 class="sec-title">車両一覧</h2>
-    <p class="sec-lead">気になる車両があれば、そのまま問い合わせできます。<br class="pc-only">空き状況は日々変わるため、最新の状況はお問い合わせ時にご案内します。</p>
-    <p class="sample-note" id="sample-note" hidden>※ 現在はサンプル表示です（掲載車両・金額は実在庫ではありません）</p>
+    <h2 class="sec-title">車両一覧・空き車両検索</h2>
+    <p class="sec-lead">1tからトレーラまで。日付と車種を選ぶと、いま借りられる車両をその場で確認できます。</p>
 
-    <div class="v-toolbar">
-      <div class="v-tabs" role="tablist" id="v-tabs"></div>
-      <label class="v-toggle"><input type="checkbox" id="v-available"><span class="v-switch"></span>空車のみ表示</label>
+    <!-- 空き車両検索（ロジレントと同じ在庫データ） -->
+    <form class="v-search" id="v-search">
+      <label>ご利用開始日<input type="date" id="vs-start" required></label>
+      <label>ご返却日<input type="date" id="vs-end" required></label>
+      <label>車種
+        <select id="vs-type"><option value="すべて">すべての車種</option></select>
+      </label>
+      <label>営業所
+        <select id="vs-loc"><option value="すべて">すべての営業所</option></select>
+      </label>
+      <button type="submit" class="btn btn-lime btn-shine" id="vs-btn">空き車両を検索 <span class="arrow">→</span></button>
+    </form>
+
+    <div class="v-result" id="v-result" hidden>
+      <div class="v-result-head">
+        <h3 id="v-result-title"></h3>
+        <button type="button" class="v-result-close" id="v-result-close">× 閉じる</button>
+      </div>
+      <div class="v-loading" id="v-loading" hidden><span class="v-loader"></span>在庫を確認しています…</div>
+      <div class="v-grid" id="v-result-grid"></div>
+      <div class="v-empty" id="v-empty" hidden></div>
     </div>
 
+    <h3 class="v-sub">取扱い車種</h3>
     <div class="v-grid" id="v-grid"></div>
-    <p class="v-empty" id="v-empty" hidden>条件に合う車両が見つかりませんでした。<br>掲載外の車両もご用意できる場合がありますので、お気軽にお問い合わせください。</p>
+    <p class="price-foot">※料金はいずれも参考価格です。燃料費は別途。長期割引・法人割引はご相談ください。<br>営業所：町田・千葉・相模原・埼玉（東京・埼玉・千葉・神奈川エリア対応）</p>
   </div>
 </section>
 
@@ -311,12 +329,14 @@
         <fieldset class="f-vehicles">
           <legend>ご希望の車格 <span class="req">必須</span></legend>
           <div class="chips">
+            <label><input type="checkbox" name="vehicle" value="1t"><span>1t</span></label>
             <label><input type="checkbox" name="vehicle" value="2t（S/L）"><span>2t（S/L）</span></label>
             <label><input type="checkbox" name="vehicle" value="2t冷蔵・冷凍"><span>2t冷蔵・冷凍</span></label>
             <label><input type="checkbox" name="vehicle" value="4t"><span>4t</span></label>
             <label><input type="checkbox" name="vehicle" value="4t冷蔵・冷凍"><span>4t冷蔵・冷凍</span></label>
-            <label><input type="checkbox" name="vehicle" value="ダンプ"><span>ダンプ</span></label>
             <label><input type="checkbox" name="vehicle" value="10t"><span>10t</span></label>
+            <label><input type="checkbox" name="vehicle" value="ダンプ"><span>ダンプ</span></label>
+            <label><input type="checkbox" name="vehicle" value="トレーラ"><span>トレーラ</span></label>
           </div>
           <p class="f-error" id="vehicle-error" hidden>車格を1つ以上選択してください。</p>
         </fieldset>
@@ -327,6 +347,8 @@
           <label>利用期間
             <select id="f-period">
               <option value="">選択してください</option>
+              <option>1週間未満</option>
+              <option>1か月未満</option>
               <option>1か月</option>
               <option>2〜3か月</option>
               <option>4〜6か月</option>
@@ -342,7 +364,7 @@
           <label>電話番号 <span class="req">必須</span><input type="tel" name="entry.1183310956" required placeholder="例）042-850-7077"></label>
         </div>
         <label>メールアドレス <span class="req">必須</span><input type="email" name="entry.1624479941" required placeholder="例）info@example.com"></label>
-        <label>ご希望の車両No.<input type="text" id="f-vehicle-id" placeholder="車両一覧から選ぶと自動で入ります（任意）"></label>
+        <label>ご希望の車両<input type="text" id="f-vehicle-id" placeholder="空き車両検索から選ぶと自動で入ります（任意）"></label>
         <label>ご要望・備考<textarea id="f-note" rows="4" placeholder="用途・荷物・希望の仕様（ゲート、ウイング、温度帯など）"></textarea></label>
 
         <!-- 既存Googleフォームへ送るための集約フィールド -->
@@ -485,7 +507,7 @@
     document.getElementById('f-message').value = [
       '【トラックレンタル問い合わせ】',
       '車格：' + vehicles.join('、'),
-      '希望車両No.：' + (document.getElementById('f-vehicle-id').value || '-'),
+      '希望車両：' + (document.getElementById('f-vehicle-id').value || '-'),
       '台数：' + (document.getElementById('f-count').value || '-'),
       '開始希望日：' + (document.getElementById('f-start').value || '-'),
       '期間：' + (document.getElementById('f-period').value || '-'),
