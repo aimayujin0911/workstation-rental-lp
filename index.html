@@ -73,7 +73,7 @@
       <li style="--d:1.18s"><a href="#price-2t"><span class="ps-name">2t（S/L）</span><span class="ps-val"><b data-count="7">7</b>万円/月〜</span></a></li>
       <li style="--d:1.26s"><a href="#price-2tc"><span class="ps-name">2t冷蔵・冷凍</span><span class="ps-val"><b data-count="15">15</b>万円/月〜</span></a></li>
       <li style="--d:1.34s"><a href="#price-4t"><span class="ps-name">4t</span><span class="ps-val"><b data-count="9">9</b>万円/月〜</span></a></li>
-      <li style="--d:1.42s"><a href="#price-4tc"><span class="ps-name">4t冷蔵・冷凍</span><span class="ps-val"><b data-count="241352">241,352</b>円/月〜</span></a></li>
+      <li style="--d:1.42s"><a href="#price-4tc"><span class="ps-name">4t冷蔵・冷凍</span><span class="ps-val"><b data-count="24.2">24.2</b>万円/月〜</span></a></li>
       <li style="--d:1.50s"><a href="#price-dump"><span class="ps-name">ダンプ</span><span class="ps-val"><b data-count="25">25</b>万円/月〜</span></a></li>
       <li style="--d:1.58s"><a href="#price-10t"><span class="ps-name">10t</span><span class="ps-val"><b data-count="25">25</b>万円/月〜</span></a></li>
     </ul>
@@ -195,7 +195,7 @@
 
       <article class="price-card" id="price-4tc">
         <header><span class="pc-tag cold">冷蔵・冷凍</span><h3>4t冷蔵・冷凍</h3></header>
-        <p class="pc-val"><b data-count="241352">241,352</b><span>円/月〜</span></p>
+        <p class="pc-val"><b data-count="24.2">24.2</b><span>万円/月〜</span></p>
         <ul class="pc-spec">
           <li>中ロットの低温輸送に</li>
           <li>温度帯はご相談ください</li>
@@ -458,12 +458,13 @@
     // 数字カウントアップ
     function countUp(el) {
       var target = +el.dataset.count, start = null, dur = 1100;
+      var dec = (el.dataset.count.split('.')[1] || '').length; // 24.2 のような小数も最後まで同じ桁で表示
       if (reduce) return;
-      function fmt(n) { return n.toLocaleString('ja-JP'); }
+      function fmt(n) { return n.toLocaleString('ja-JP', { minimumFractionDigits: dec, maximumFractionDigits: dec }); }
       function tick(t) {
         if (!start) start = t;
         var p = Math.min((t - start) / dur, 1), e = 1 - Math.pow(1 - p, 4);
-        el.textContent = fmt(Math.round(target * e));
+        el.textContent = fmt(dec ? target * e : Math.round(target * e));
         if (p < 1) requestAnimationFrame(tick);
       }
       el.textContent = '0';
