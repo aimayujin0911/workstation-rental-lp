@@ -21,8 +21,8 @@
   <div class="header-inner">
     <a href="https://workstation-inc.net/" class="logo"><img src="images/logo.png" alt="株式会社ワークステーション" height="34"></a>
     <nav class="nav">
-      <a href="#price">料金</a>
       <a href="#vehicles">車両一覧</a>
+      <a href="#price">料金</a>
       <a href="#scene">ご利用シーン</a>
       <a href="#reason">選ばれる理由</a>
       <a href="#flow">ご利用の流れ</a>
@@ -30,7 +30,8 @@
     </nav>
     <div class="header-cta">
       <a href="tel:0428507077" class="header-tel"><span>☎</span>042-850-7077</a>
-      <a href="#contact" class="btn btn-lime btn-sm">空車を問い合わせる</a>
+      <a href="#vehicles" class="btn btn-navy btn-sm header-search"><svg viewBox="0 0 24 24" class="i-search"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg>空き車両検索</a>
+      <a href="#contact" class="btn btn-lime btn-sm header-contact">問い合わせ</a>
     </div>
   </div>
 </header>
@@ -76,10 +77,49 @@
       <li style="--d:1.50s"><a href="#price-dump"><span class="ps-name">ダンプ</span><span class="ps-val"><b data-count="25">25</b>万円/月〜</span></a></li>
       <li style="--d:1.58s"><a href="#price-10t"><span class="ps-name">10t</span><span class="ps-val"><b data-count="25">25</b>万円/月〜</span></a></li>
     </ul>
-    <p class="price-note">※掲載金額は月額・税抜の最低提示額です。</p>
+    <div class="hero-prices-foot">
+      <a href="#vehicles" class="hero-veh-link">全車種の料金・空き状況を見る <span class="arrow">→</span></a>
+      <p class="price-note">※掲載金額は月額・税抜の最低提示額です。</p>
+    </div>
   </div>
 </section>
 
+
+<!-- ===== Vehicles ===== -->
+<section class="section vehicles" id="vehicles" data-wm="LINE UP">
+  <div class="container">
+    <p class="sec-label">LINE UP</p>
+    <h2 class="sec-title">車両一覧・空き車両検索</h2>
+    <p class="sec-lead">1tからトレーラまで。日付と車種を選ぶと、いま借りられる車両をその場で確認できます。</p>
+
+    <!-- 空き車両検索（ロジレントと同じ在庫データ） -->
+    <form class="v-search" id="v-search">
+      <label>ご利用開始日<input type="date" id="vs-start" required></label>
+      <label>ご返却日<input type="date" id="vs-end" required></label>
+      <label>車種
+        <select id="vs-type"><option value="すべて">すべての車種</option></select>
+      </label>
+      <label>営業所
+        <select id="vs-loc"><option value="すべて">すべての営業所</option></select>
+      </label>
+      <button type="submit" class="btn btn-lime btn-shine" id="vs-btn">空き車両を検索 <span class="arrow">→</span></button>
+    </form>
+
+    <div class="v-result" id="v-result" hidden>
+      <div class="v-result-head">
+        <h3 id="v-result-title"></h3>
+        <button type="button" class="v-result-close" id="v-result-close">× 閉じる</button>
+      </div>
+      <div class="v-loading" id="v-loading" hidden><span class="v-loader"></span>在庫を確認しています…</div>
+      <div class="v-grid" id="v-result-grid"></div>
+      <div class="v-empty" id="v-empty" hidden></div>
+    </div>
+
+    <h3 class="v-sub">取扱い車種</h3>
+    <div class="v-grid" id="v-grid"></div>
+    <p class="price-foot">※料金はいずれも参考価格です。燃料費は別途。長期割引・法人割引はご相談ください。<br>営業所：町田・千葉・相模原・埼玉（東京・埼玉・千葉・神奈川エリア対応）</p>
+  </div>
+</section>
 
 <!-- ===== Scene ===== -->
 <section class="section scene" id="scene" data-wm="SCENE">
@@ -91,21 +131,25 @@
         <div class="scene-icon"><svg viewBox="0 0 24 24"><path d="M3 7l9-4 9 4-9 4-9-4z"/><path d="M3 7v10l9 4 9-4V7"/><path d="M12 11v10"/></svg></div>
         <h3>急な増車・新規案件</h3>
         <p>新しい荷主の案件が決まった、スポットの依頼が増えた。車両購入を待たずに走り出せます。</p>
+        <a href="#vehicles" class="scene-link" data-vtype="">空いている車両を見る <span class="arrow">→</span></a>
       </div>
       <div class="scene-card">
         <div class="scene-icon"><svg viewBox="0 0 24 24"><path d="M14.7 6.3a4 4 0 0 0-5.4 5.2L3 17.8V21h3.2l6.3-6.3a4 4 0 0 0 5.2-5.4l-2.6 2.6-2.4-.6-.6-2.4 2.6-2.6z"/></svg></div>
         <h3>車検・故障中の代車</h3>
         <p>自社車両が止まっている間も、配送は止められない。修理期間だけの月額利用に。</p>
+        <a href="#vehicles" class="scene-link" data-vtype="">すぐ借りられる車両を見る <span class="arrow">→</span></a>
       </div>
       <div class="scene-card">
         <div class="scene-icon"><svg viewBox="0 0 24 24"><path d="M3 20h18"/><path d="M4 16l5-5 4 3 7-8"/><path d="M15 6h5v5"/></svg></div>
         <h3>繁忙期の一時的な増車</h3>
         <p>年末・引越しシーズンなど、必要な期間だけ台数を増やして、閑散期は戻すだけ。</p>
+        <a href="#vehicles" class="scene-link" data-vtype="">車種と料金を見る <span class="arrow">→</span></a>
       </div>
       <div class="scene-card">
         <div class="scene-icon"><svg viewBox="0 0 24 24"><path d="M2 6h11v10H2z"/><path d="M13 9h4l4 4v3h-8z"/><circle cx="6" cy="18" r="2"/><circle cx="17" cy="18" r="2"/></svg></div>
         <h3>購入前のお試し</h3>
         <p>冷凍車・ダンプなど、新しい車格を導入する前に、実際の業務で使って確かめたい。</p>
+        <a href="#vehicles" class="scene-link" data-vtype="4t冷凍車">冷凍車を見る <span class="arrow">→</span></a>
       </div>
     </div>
   </div>
@@ -180,42 +224,10 @@
       </article>
     </div>
     <p class="price-foot">※掲載金額は月額・税抜の最低提示額です。車両の年式・仕様・ご利用期間により変動します。</p>
-  </div>
-</section>
-
-<!-- ===== Vehicles ===== -->
-<section class="section vehicles" id="vehicles" data-wm="LINE UP">
-  <div class="container">
-    <p class="sec-label">LINE UP</p>
-    <h2 class="sec-title">車両一覧・空き車両検索</h2>
-    <p class="sec-lead">1tからトレーラまで。日付と車種を選ぶと、いま借りられる車両をその場で確認できます。</p>
-
-    <!-- 空き車両検索（ロジレントと同じ在庫データ） -->
-    <form class="v-search" id="v-search">
-      <label>ご利用開始日<input type="date" id="vs-start" required></label>
-      <label>ご返却日<input type="date" id="vs-end" required></label>
-      <label>車種
-        <select id="vs-type"><option value="すべて">すべての車種</option></select>
-      </label>
-      <label>営業所
-        <select id="vs-loc"><option value="すべて">すべての営業所</option></select>
-      </label>
-      <button type="submit" class="btn btn-lime btn-shine" id="vs-btn">空き車両を検索 <span class="arrow">→</span></button>
-    </form>
-
-    <div class="v-result" id="v-result" hidden>
-      <div class="v-result-head">
-        <h3 id="v-result-title"></h3>
-        <button type="button" class="v-result-close" id="v-result-close">× 閉じる</button>
-      </div>
-      <div class="v-loading" id="v-loading" hidden><span class="v-loader"></span>在庫を確認しています…</div>
-      <div class="v-grid" id="v-result-grid"></div>
-      <div class="v-empty" id="v-empty" hidden></div>
-    </div>
-
-    <h3 class="v-sub">取扱い車種</h3>
-    <div class="v-grid" id="v-grid"></div>
-    <p class="price-foot">※料金はいずれも参考価格です。燃料費は別途。長期割引・法人割引はご相談ください。<br>営業所：町田・千葉・相模原・埼玉（東京・埼玉・千葉・神奈川エリア対応）</p>
+    <a href="#vehicles" class="veh-band">
+      <span class="veh-band-text"><small>実際の車両・空き状況は</small>車両一覧から日付を選んで検索できます</span>
+      <span class="veh-band-btn">車両一覧へ <span class="arrow">→</span></span>
+    </a>
   </div>
 </section>
 
@@ -262,7 +274,8 @@
   <div class="container mid-cta-inner">
     <p>在庫は日々変わります。<br class="sp-only">まずは空き状況をご確認ください。</p>
     <div class="mid-cta-btns">
-      <a href="#contact" class="btn btn-lime btn-lg btn-shine">空き車両を問い合わせる <span class="arrow">→</span></a>
+      <a href="#vehicles" class="btn btn-lime btn-lg btn-shine">空き車両を検索する <span class="arrow">→</span></a>
+      <a href="#contact" class="btn btn-ghost btn-lg">問い合わせる</a>
       <a href="tel:0428507077" class="btn btn-ghost btn-lg">☎ 042-850-7077</a>
     </div>
   </div>
@@ -288,6 +301,10 @@
     <p class="sec-label">FAQ</p>
     <h2 class="sec-title">よくある質問</h2>
     <!-- TODO(要確認): 最短期間・保険・整備・納車エリアの回答はワークステーション様に確認して確定する -->
+    <details>
+      <summary>どんな車両がありますか？空いているかすぐ分かりますか？</summary>
+      <p>1tからトレーラまで取り扱っています。<a href="#vehicles" class="text-link">車両一覧</a>で日付・車種・営業所を選ぶと、その場で空き車両を検索できます。</p>
+    </details>
     <details>
       <summary>最短どのくらいの期間から借りられますか？</summary>
       <p>月単位でのご契約を基本としています。ご希望の期間をお知らせいただければ、条件に合わせてご提案します。</p>
@@ -407,9 +424,15 @@
 </footer>
 
 <!-- SP固定CTA -->
+<a href="#vehicles" class="float-search" id="float-search" aria-label="空き車両を検索">
+  <svg viewBox="0 0 24 24" class="i-search"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg>
+  <span>空き車両を検索</span>
+</a>
+
 <div class="sp-fixed">
-  <a href="tel:0428507077" class="sp-tel">☎ 電話する</a>
-  <a href="#contact" class="sp-form">空車を問い合わせる</a>
+  <a href="tel:0428507077" class="sp-tel">☎ 電話</a>
+  <a href="#vehicles" class="sp-veh"><svg viewBox="0 0 24 24" class="i-search"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg>空き車両検索</a>
+  <a href="#contact" class="sp-form">問い合わせ</a>
 </div>
 
 <script src="vehicles.js"></script>
@@ -482,6 +505,29 @@
         card.style.setProperty('--my', (e.clientY - r.top) + 'px');
       });
     });
+  })();
+
+  // 車両一覧への導線：用途リンクは車種を選んだ状態にする／フローティングボタンは一覧・フォーム表示中は隠す
+  (function () {
+    document.querySelectorAll('[data-vtype]').forEach(function (a) {
+      a.addEventListener('click', function () {
+        var sel = document.getElementById('vs-type');
+        if (sel) sel.value = a.dataset.vtype || 'すべて';
+      });
+    });
+    var pill = document.getElementById('float-search');
+    var hero = document.querySelector('.hero');
+    var hideIn = [document.getElementById('vehicles'), document.getElementById('contact')];
+    if (!pill || !('IntersectionObserver' in window)) return;
+    var vis = new Map();
+    var update = function () {
+      var pastHero = hero.getBoundingClientRect().bottom < 0;
+      var inside = hideIn.some(function (el) { return vis.get(el); });
+      pill.classList.toggle('is-show', pastHero && !inside);
+    };
+    var io = new IntersectionObserver(function (es) { es.forEach(function (e) { vis.set(e.target, e.isIntersecting); }); update(); }, { threshold: 0.05 });
+    hideIn.forEach(function (el) { io.observe(el); });
+    window.addEventListener('scroll', update, { passive: true });
   })();
 
   // 料金カードのボタン → フォームの車格にチェックを入れてスクロール
