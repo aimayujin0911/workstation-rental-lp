@@ -13,6 +13,7 @@
   <link rel="stylesheet" href="motion.css">
   <link rel="stylesheet" href="vehicles.css">
   <script>document.documentElement.classList.add('js');</script>
+  <script src="analytics.js"></script>
 </head>
 <body>
 
@@ -562,6 +563,11 @@
       '備考：' + (document.getElementById('f-note').value || '-')
     ].join('\n');
 
+    window.track('generate_lead', {
+      vehicle_types: vehicles.join(','),
+      period: document.getElementById('f-period').value || '',
+      vehicle_detail: document.getElementById('f-vehicle-id').value ? 'yes' : 'no'
+    });
     var data = new FormData(form);
     data.delete('vehicle');
     var done = function () { form.hidden = true; document.getElementById('thank-you').hidden = false; };

@@ -120,7 +120,7 @@
           (v.note ? '<p class="v-use">' + esc(v.note) + '</p>' : '') +
           '<div class="v-foot">' +
             priceRow(v.priceDay, v.priceMonth, v.priceLease) +
-            '<button type="button" class="btn btn-navy v-pick" data-i="' + i + '">この車両で問い合わせる <span class="arrow">→</span></button>' +
+            '<button type="button" class="btn btn-navy v-pick" data-i="' + i + '" data-type="' + esc(v.type) + '">この車両で問い合わせる <span class="arrow">→</span></button>' +
           '</div>' +
         '</div>' +
       '</article>';
@@ -144,6 +144,7 @@
       .then(function (j) {
         if (j.status !== 'ok') throw new Error(j.message || 'error');
         found = j.data || [];
+        window.track && window.track('vehicle_search', { vehicle_type: fType.value, location: fLoc.value, days: days(), results: found.length });
         rTitle.innerHTML = esc(range) + 'の空き車両 <b>' + found.length + '台</b>';
         if (found.length) { renderFound(); return; }
         rEmpty.innerHTML = '<p><strong>この条件で今すぐ確定できる空き車両はありませんでした。</strong><br>掲載外の車両や他営業所からの手配で対応できる場合があります。条件をそのままお送りいただければ、担当者が探してご連絡します。</p>' +
