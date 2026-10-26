@@ -12,7 +12,7 @@
  *   cta_click        … 車両一覧・問い合わせへのボタン（どのボタンか）
  */
 (function () {
-  var GA4_ID = ''; // 例: 'G-XXXXXXXXXX'
+  var GA4_ID = 'G-9F49DCEH63'; // LIGO GAアカウント内「ワークステーション トラックレンタルLP」プロパティ
 
   window.track = function () {};
   if (!GA4_ID) return;
