@@ -145,19 +145,54 @@
         if (j.status !== 'ok') throw new Error(j.message || 'error');
         found = j.data || [];
         window.track && window.track('vehicle_search', { vehicle_type: fType.value, location: fLoc.value, days: days(), results: found.length });
-        rTitle.innerHTML = esc(range) + 'の空き車両 <b>' + found.length + '台</b>';
-        if (found.length) { renderFound(); return; }
-        rEmpty.innerHTML = '<p><strong>この条件で今すぐ確定できる空き車両はありませんでした。</strong><br>掲載外の車両や他営業所からの手配で対応できる場合があります。条件をそのままお送りいただければ、担当者が探してご連絡します。</p>' +
-          '<button type="button" class="btn btn-lime v-ask-cond">この条件で手配を依頼する <span class="arrow">→</span></button>';
-        rEmpty.hidden = false;
+        if (found.length) { rTitle.innerHTML = esc(range) + 'の空き車両 <b>' + found.length + '台</b>'; renderFound(); return; }
+        quickBox(range, false);
       })
-      .catch(function () {
-        rEmpty.innerHTML = '<p><strong>空き状況を取得できませんでした。</strong><br>お手数ですが、お電話（042-850-7077）またはフォームでお問い合わせください。</p>' +
-          '<button type="button" class="btn btn-lime v-ask-cond">フォームで問い合わせる <span class="arrow">→</span></button>';
-        rEmpty.hidden = false;
-      })
+      .catch(function () { quickBox(range, true); })
       .then(function () { rLoading.hidden = true; btn.disabled = false; });
   }
+
+  // 該当0台・取得失敗のとき：行き止まりにせず、その場で手配確認を依頼できるようにする
+  function condText() {
+    var t = (!fType.value || fType.value === 'すべて') ? '車種未定' : fType.value;
+    return [t, fLoc.value === 'すべて' ? '' : fLoc.value, fStart.value + '〜' + fEnd.value].filter(Boolean).join(' ');
+  }
+  function quickBox(range, failed) {
+    rTitle.innerHTML = esc(range) + 'の手配確認';
+    rEmpty.innerHTML =
+      '<div class="vq">' +
+        '<p class="vq-lead"><strong>' + (failed ? 'この条件の空き状況を、担当者が直接お調べします。' : 'この条件の車両、担当者がお探しします。') + '</strong>' +
+        '掲載中の車両以外にも、他営業所・提携先からの手配で対応できることがあります。電話番号だけで依頼できます。</p>' +
+        '<p class="vq-cond">ご依頼内容：' + esc(condText()) + '（' + days() + '日間）</p>' +
+        '<form class="vq-form" id="vq-form">' +
+          '<label>電話番号 <span class="req">必須</span><input type="tel" id="vq-tel" required inputmode="tel" autocomplete="tel" placeholder="例）042-850-7077"></label>' +
+          '<label>会社名 <span class="opt">任意</span><input type="text" id="vq-company" autocomplete="organization" placeholder="例）株式会社○○運送"></label>' +
+          '<button type="submit" class="btn btn-lime btn-shine">この条件で手配を依頼する <span class="arrow">→</span></button>' +
+        '</form>' +
+        '<p class="vq-or">お急ぎの方は <a href="tel:0428507077">☎ 042-850-7077</a>（平日 9:00〜18:00）／<button type="button" class="vq-full v-ask-cond">詳しく書いて問い合わせる</button></p>' +
+        '<div class="vq-done" hidden><b>✓ 依頼を受け付けました</b>担当者が空き状況を確認し、折り返しお電話します。</div>' +
+      '</div>';
+    rEmpty.hidden = false;
+  }
+  rEmpty.addEventListener('submit', function (e) {
+    if (e.target.id !== 'vq-form') return;
+    e.preventDefault();
+    var t = fType.value === 'すべて' ? '' : fType.value;
+    var l = lineupOf(t);
+    var btn2 = e.target.querySelector('button'); btn2.disabled = true;
+    window.sendLead({
+      tel: document.getElementById('vq-tel').value.trim(),
+      company: document.getElementById('vq-company').value.trim(),
+      vehicles: (l && l.form) || t || '未定',
+      detail: condText(),
+      start: fStart.value,
+      period: days() + '日間（' + fStart.value + '〜' + fEnd.value + '）'
+    }, 'search_quick').then(function () {
+      e.target.hidden = true;
+      rEmpty.querySelector('.vq-or').hidden = true;
+      rEmpty.querySelector('.vq-done').hidden = false;
+    });
+  });
 
   form.addEventListener('submit', function (e) { e.preventDefault(); search(); });
   document.getElementById('v-result-close').addEventListener('click', function () { result.hidden = true; });
@@ -197,6 +232,6 @@
   rEmpty.addEventListener('click', function (e) {
     if (!e.target.closest('.v-ask-cond')) return;
     var t = fType.value === 'すべて' ? '' : fType.value;
-    toForm(t, [t || '車種未定', fLoc.value === 'すべて' ? '' : fLoc.value, fStart.value + '〜' + fEnd.value].filter(Boolean).join(' '), true);
+    toForm(t, condText(), true);
   });
 })();

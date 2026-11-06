@@ -91,7 +91,7 @@
   <div class="container">
     <p class="sec-label">LINE UP</p>
     <h2 class="sec-title">車両一覧・空き車両検索</h2>
-    <p class="sec-lead">1tからトレーラまで。日付と車種を選ぶと、いま借りられる車両をその場で確認できます。</p>
+    <p class="sec-lead">1tからトレーラまで。日付と車種を選ぶと空き状況を確認できます。掲載中の車両で合わなくても、担当者が他営業所・提携先から手配します。</p>
 
     <!-- 空き車両検索（ロジレントと同じ在庫データ） -->
     <form class="v-search" id="v-search">
@@ -346,7 +346,7 @@
     <div class="contact-form-wrap">
       <form id="gform" class="contact-form" onsubmit="submitToGoogleForm(event)">
         <fieldset class="f-vehicles">
-          <legend>ご希望の車格 <span class="req">必須</span></legend>
+          <legend>ご希望の車格 <span class="opt">任意・複数可</span></legend>
           <div class="chips">
             <label><input type="checkbox" name="vehicle" value="1t"><span>1t</span></label>
             <label><input type="checkbox" name="vehicle" value="2t（S/L）"><span>2t（S/L）</span></label>
@@ -357,7 +357,6 @@
             <label><input type="checkbox" name="vehicle" value="ダンプ"><span>ダンプ</span></label>
             <label><input type="checkbox" name="vehicle" value="トレーラ"><span>トレーラ</span></label>
           </div>
-          <p class="f-error" id="vehicle-error" hidden>車格を1つ以上選択してください。</p>
         </fieldset>
 
         <div class="f-row three">
@@ -377,12 +376,13 @@
           </label>
         </div>
 
-        <label>会社名 <span class="req">必須</span><input type="text" name="entry.1015517756" required placeholder="例）株式会社○○運送"></label>
+        <label>電話番号 <span class="req">必須</span><input type="tel" name="entry.1183310956" required inputmode="tel" autocomplete="tel" placeholder="例）042-850-7077"></label>
+        <p class="f-hint">入力はここまででもOKです。担当者から折り返しお電話します。</p>
         <div class="f-row">
-          <label>ご担当者名 <span class="req">必須</span><input type="text" name="entry.1231531774" required placeholder="例）山田 太郎"></label>
-          <label>電話番号 <span class="req">必須</span><input type="tel" name="entry.1183310956" required placeholder="例）042-850-7077"></label>
+          <label>会社名 <span class="opt">任意</span><input type="text" name="entry.1015517756" autocomplete="organization" placeholder="例）株式会社○○運送"></label>
+          <label>ご担当者名 <span class="opt">任意</span><input type="text" name="entry.1231531774" autocomplete="name" placeholder="例）山田 太郎"></label>
         </div>
-        <label>メールアドレス <span class="req">必須</span><input type="email" name="entry.1624479941" required placeholder="例）info@example.com"></label>
+        <label>メールアドレス <span class="opt">任意</span><input type="email" name="entry.1624479941" autocomplete="email" placeholder="例）info@example.com"></label>
         <label>ご希望の車両<input type="text" id="f-vehicle-id" placeholder="空き車両検索から選ぶと自動で入ります（任意）"></label>
         <label>ご要望・備考<textarea id="f-note" rows="4" placeholder="用途・荷物・希望の仕様（ゲート、ウイング、温度帯など）"></textarea></label>
 
@@ -391,7 +391,7 @@
         <input type="hidden" name="entry.465812725" id="f-message">
 
         <button type="submit" class="btn btn-lime btn-lg btn-block">この内容で問い合わせる <span class="arrow">→</span></button>
-        <p class="f-note">お見積り・ご相談は無料です。</p>
+        <p class="f-note">お見積り・ご相談は無料です。電話番号だけで送信できます。</p>
       </form>
 
       <div class="thank-you" id="thank-you" hidden>
@@ -431,9 +431,8 @@
 </a>
 
 <div class="sp-fixed">
-  <a href="tel:0428507077" class="sp-tel">☎ 電話</a>
-  <a href="#vehicles" class="sp-veh"><svg viewBox="0 0 24 24" class="i-search"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg>空き車両検索</a>
-  <a href="#contact" class="sp-form">問い合わせ</a>
+  <a href="tel:0428507077" class="sp-tel"><b>☎ 今すぐ電話で空き確認</b><small>平日 9:00〜18:00／042-850-7077</small></a>
+  <a href="#contact" class="sp-form">フォーム</a>
 </div>
 
 <script src="vehicles.js"></script>
@@ -543,37 +542,47 @@
     });
   });
 
+  // 既存Googleフォーム（ワークステーション様問い合わせ）へ送る。Googleフォーム側の必須は無し
+  var GFORM = 'https://docs.google.com/forms/u/0/d/e/1FAIpQLScKDzqcA9ogLlYiTNBTZahbsQwEl8WOd2zu9l_wCe3fdOWMDw/formResponse';
+  window.sendLead = function (f, source) {
+    var lines = ['【トラックレンタル問い合わせ】'];
+    if (source === 'search_quick') lines.push('※空き車両検索（該当0台）からの手配依頼');
+    lines.push(
+      '車格：' + (f.vehicles || '-'),
+      '希望車両：' + (f.detail || '-'),
+      '台数：' + (f.count || '-'),
+      '開始希望日：' + (f.start || '-'),
+      '期間：' + (f.period || '-'),
+      '備考：' + (f.note || '-')
+    );
+    var d = new FormData();
+    d.append('entry.1015517756', f.company || '');
+    d.append('entry.1231531774', f.name || '');
+    d.append('entry.1183310956', f.tel || '');
+    d.append('entry.1624479941', f.email || '');
+    d.append('entry.1479007872', 'その他');
+    d.append('entry.465812725', lines.join(String.fromCharCode(10)));
+    window.track('generate_lead', { source: source, vehicle_types: f.vehicles || '', period: f.period || '', vehicle_detail: f.detail ? 'yes' : 'no' });
+    return fetch(GFORM, { method: 'POST', body: d, mode: 'no-cors' }).catch(function () {});
+  };
+
   function submitToGoogleForm(e) {
     e.preventDefault();
     var form = document.getElementById('gform');
+    var val = function (id) { return document.getElementById(id).value.trim(); };
     var vehicles = Array.prototype.map.call(
       form.querySelectorAll('input[name="vehicle"]:checked'), function (cb) { return cb.value; });
-    var err = document.getElementById('vehicle-error');
-    if (vehicles.length === 0) { err.hidden = false; err.scrollIntoView({ block: 'center' }); return; }
-    err.hidden = true;
-
-    // 既存フォームに項目追加せず済むよう、レンタル条件は本文にまとめて送る
-    document.getElementById('f-message').value = [
-      '【トラックレンタル問い合わせ】',
-      '車格：' + vehicles.join('、'),
-      '希望車両：' + (document.getElementById('f-vehicle-id').value || '-'),
-      '台数：' + (document.getElementById('f-count').value || '-'),
-      '開始希望日：' + (document.getElementById('f-start').value || '-'),
-      '期間：' + (document.getElementById('f-period').value || '-'),
-      '備考：' + (document.getElementById('f-note').value || '-')
-    ].join('\n');
-
-    window.track('generate_lead', {
-      vehicle_types: vehicles.join(','),
-      period: document.getElementById('f-period').value || '',
-      vehicle_detail: document.getElementById('f-vehicle-id').value ? 'yes' : 'no'
+    window.sendLead({
+      company: form.elements['entry.1015517756'].value.trim(),
+      name: form.elements['entry.1231531774'].value.trim(),
+      tel: form.elements['entry.1183310956'].value.trim(),
+      email: form.elements['entry.1624479941'].value.trim(),
+      vehicles: vehicles.join('、') || '未定',
+      detail: val('f-vehicle-id'), count: val('f-count'), start: val('f-start'),
+      period: val('f-period'), note: val('f-note')
+    }, 'contact_form').then(function () {
+      form.hidden = true; document.getElementById('thank-you').hidden = false;
     });
-    var data = new FormData(form);
-    data.delete('vehicle');
-    var done = function () { form.hidden = true; document.getElementById('thank-you').hidden = false; };
-    fetch('https://docs.google.com/forms/u/0/d/e/1FAIpQLScKDzqcA9ogLlYiTNBTZahbsQwEl8WOd2zu9l_wCe3fdOWMDw/formResponse', {
-      method: 'POST', body: data, mode: 'no-cors'
-    }).then(done).catch(done);
   }
 </script>
 </body>
